@@ -1,11 +1,11 @@
 package Service.impl;
 
 import Culturoteca.exception.VideoNotFoundException;
-import Service.CultureMediaService;
 import Culturoteca.model.Video;
 import Culturoteca.model.View;
 import Culturoteca.repository.VideoRepository;
 import Culturoteca.repository.ViewsRepository;
+import Service.CultureMediaService;
 
 import java.util.List;
 
@@ -20,19 +20,38 @@ public class CultureMediaServiceImpl implements CultureMediaService {
 
     @Override
     public Video save(Video video) {
-        Video videoSave = videoRepository.save(video);
-        return videoSave;
+        this.videoRepository.save(video);
+        return video;
     }
 
     @Override
     public View save(View view) {
-        View viewSave = viewRepository.save(view);
-        return viewSave;
+        this.viewRepository.save(view);
+        return view;
     }
 
     @Override
     public List<Video> findAll() throws VideoNotFoundException {
         List<Video> videos = videoRepository.findAll();
+        if (videos.isEmpty()) {
+            throw new VideoNotFoundException();
+        }
+        return videos;
+    }
+    @Override
+    public List<Video> findByTitle(String title) throws VideoNotFoundException{
+        List<Video> videos= this.videoRepository.findByTitle(title);
+        if (videos== null || videos.isEmpty()) {
+            throw new VideoNotFoundException();
+        }
+        return videos;
+    }
+    @Override
+    public List<Video> findByDuration(Double fromDuration, Double toDuration) throws VideoNotFoundException{
+        List<Video> videos = this.videoRepository.findByDuration(fromDuration, toDuration);
+        if (videos.isEmpty()){
+            throw new VideoNotFoundException();
+        }
         return videos;
     }
 }
