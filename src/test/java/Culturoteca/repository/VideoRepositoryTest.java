@@ -2,14 +2,14 @@ package Culturoteca.repository;
 
 import java.util.List;
 
+import Culturoteca.exception.VideoNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Culturoteca.model.Video;
 import Culturoteca.repository.impl.VideoRepositoryImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class VideoRepositoryTest {
 
@@ -21,10 +21,10 @@ class VideoRepositoryTest {
         videoRepository = new VideoRepositoryImpl();
 
         List<Video> videos = List.of(new Video("01", "Título 1", "----", 4.5),
-                new Video("02", "Título 2", "----", 5.5),
+                new Video("02", "Título 2", "----", 5.3),
                 new Video("03", "Título 3", "----", 4.6),
                 new Video("04", "Título 4", "----", 3.5),
-                new Video("05", "Clic 5", "----", 5.3),
+                new Video("05", "Clic 5", "----", 5.7),
                 new Video("06", "Clic 6", "----", 5.1));
 
 
@@ -35,7 +35,7 @@ class VideoRepositoryTest {
     }
 
     @Test
-    void when_FindAll_all_videos_should_be_returned_successfully() {
+    void when_FindAll_all_videos_should_be_returned_successfully() throws VideoNotFoundException {
         List<Video> videos = videoRepository.findAll( );
         assertEquals(6, videos.size());
     }
@@ -62,8 +62,8 @@ class VideoRepositoryTest {
 
     @Test
     void when_FindByDuration_does_not_match_any_video_an_empty_list_should_be_returned_successfully() {
-        init();  // Inicializamos los datos en el repositorio
-        List<Video> videos = videoRepository.findByDuration(10.0, 15.0);  // Usamos un rango en el que sabemos que no hay coincidencias
+        init();
+        List<Video> videos = videoRepository.findByDuration(10.0, 15.0);
         assertTrue(videos.isEmpty(), "La lista no está vacía, se esperaba que estuviera vacía.");
     }
 

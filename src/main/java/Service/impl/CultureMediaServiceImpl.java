@@ -1,5 +1,6 @@
 package Service.impl;
 
+import Culturoteca.exception.VideoNotFoundException;
 import Service.CultureMediaService;
 import Culturoteca.model.Video;
 import Culturoteca.model.View;
@@ -30,7 +31,7 @@ public class CultureMediaServiceImpl implements CultureMediaService {
     }
 
     @Override
-    public List<Video> findAll() {
+    public List<Video> findAll() throws VideoNotFoundException {
         List<Video> videos = videoRepository.findAll();
         return videos;
     }
